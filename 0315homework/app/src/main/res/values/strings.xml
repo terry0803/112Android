@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">0315homework</string>
+    <string name="account">帳號</string>
+    <string name="input_name">密碼</string>
+    <string name="accountNumber">請輸入帳號</string>
+    <string name="Number">請輸入密碼</string>
+    <string name="send">登入</string>
+    <string name="show">显示登入是否成功</string>
+
+</resources>
