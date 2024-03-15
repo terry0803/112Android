@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        EditText accountEditText = findViewById(R.id.Textaccount); // 注意这里的ID应该是Textaccount，根据您的XML布局
+        EditText accountEditText = findViewById(R.id.Textaccount);
         EditText passwordEditText = findViewById(R.id.Textpassword);
         Button enterButton = findViewById(R.id.enterbutton);
         TextView showTextView = findViewById(R.id.show);
@@ -30,11 +30,15 @@ public class MainActivity extends AppCompatActivity {
                 String inputAccount = accountEditText.getText().toString();
                 String inputPassword = passwordEditText.getText().toString();
 
-                // 检查账号和密码是否匹配预设值
-                if (defaultAccount.equals(inputAccount) && defaultPassword.equals(inputPassword)) {
-                    showTextView.setText("登入成功"); // 或者直接用字符串 "登入成功"
+                // 檢查是否輸入了帳號和密碼
+                if (inputAccount.isEmpty()) {
+                    showTextView.setText("請輸入帳號"); // 直接使用字符串，也可以使用字符串资源
+                } else if (inputPassword.isEmpty()) {
+                    showTextView.setText("請輸入密碼"); // 直接使用字符串，也可以使用字符串资源
+                } else if (defaultAccount.equals(inputAccount) && defaultPassword.equals(inputPassword)) {
+                    showTextView.setText("登入成功"); // 直接使用字符串，也可以使用字符串资源
                 } else {
-                    showTextView.setText("登入失敗"); // 或者直接用字符串 "登入失敗"
+                    showTextView.setText("帳號或密碼有誤"); // 直接使用字符串，也可以使用字符串资源
                 }
             }
         });

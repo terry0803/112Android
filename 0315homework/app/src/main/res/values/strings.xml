@@ -5,6 +5,9 @@
     <string name="accountNumber">請輸入帳號</string>
     <string name="Number">請輸入密碼</string>
     <string name="send">登入</string>
-    <string name="show">显示登入是否成功</string>
-
+    <string name="show">顯示登入是否成功</string>
+    <string name="login_success">登入成功</string>
+    <string name="login_failure">帳號或密碼有誤</string>
+    <string name="prompt_account">請輸入帳號</string>
+    <string name="prompt_password">請輸入密碼</string>
 </resources>
