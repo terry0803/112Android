@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">RadioButtonHW</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="regularticket">Regular Ticket</string>
+    <string name="childticket">Children Ticket</string>
+    <string name="studentticket">Student Ticket</string>
+    <string name="NumberOfSheets">Count :</string>
+    <string name="confirm">Confirm</string>
+    <string name="ticketType">Ticket Type :</string>
+    <string name="gender">Gender :</string>
+    <string name="total">Total :</string>
+    <string name="purchase_number">Please enter the number of tickets</string>
+    <string name="ticket_details">%1$s\n%2$s: %3$d tickets\nTotal %4$d</string>
+</resources>
