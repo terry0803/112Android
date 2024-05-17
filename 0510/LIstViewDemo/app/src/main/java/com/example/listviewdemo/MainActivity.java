@@ -34,5 +34,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         TextView output = (TextView) findViewById(R.id.lblOutput);
         output.setText("您選擇的城市是：" + cities[position]);
 
+        Toast.makeText(this, "您選擇的城市是：" + cities[position], Toast.LENGTH_SHORT).show();
     }
 }
