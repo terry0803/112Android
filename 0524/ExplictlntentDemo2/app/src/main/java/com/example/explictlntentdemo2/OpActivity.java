@@ -20,9 +20,9 @@ public class OpActivity extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double result = 0.0;
+                double result = Double.NaN;  // Default to NaN to indicate unhandled cases
                 RadioButton rdbAdd, rdbSubtract, rdbMultiply, rdbDivide;
-                CheckBox chkDivide;
+                CheckBox chkDivide = (CheckBox) findViewById(R.id.chkDivide);
 
                 Bundle bundle = OpActivity.this.getIntent().getExtras();
                 if (bundle == null) return;
@@ -31,38 +31,30 @@ public class OpActivity extends AppCompatActivity {
                 int opd2 = Integer.parseInt(bundle.getString("OPERANDO2"));
 
                 rdbAdd = (RadioButton) findViewById(R.id.rdbAdd);
-                if (rdbAdd.isChecked()) {
-                    result = opd1 + opd2;  // Addition
-                }
-
                 rdbSubtract = (RadioButton) findViewById(R.id.rdbSubtract);
-                if (rdbSubtract.isChecked()) {
-                    result = opd1 - opd2;  // Subtraction
-                }
                 rdbMultiply = (RadioButton) findViewById(R.id.rdbMultiply);
-                if (rdbMultiply.isChecked()) {
-                    result = opd1 * opd2;  // Multiplication
-                }
-
                 rdbDivide = (RadioButton) findViewById(R.id.rdbDivide);
-                chkDivide = (CheckBox) findViewById(R.id.chkDivide);
-                if (rdbDivide.isChecked()) {
-                    if (chkDivide.isChecked() && opd2 != 0) {
-                        result = opd1 / (double) opd2;  // Division with double result
-                    } else if (opd2 != 0) {
-                        result = opd1 / opd2;  // Integer division
-                    } else {
-                        // Handle division by zero if necessary
-                        // This could be showing a message or setting a specific error result
+
+                if (rdbAdd.isChecked()) {
+                    result = opd1 + opd2;
+                } else if (rdbSubtract.isChecked()) {
+                    result = opd1 - opd2;
+                } else if (rdbMultiply.isChecked()) {
+                    result = opd1 * opd2;
+                } else if (rdbDivide.isChecked()) {
+                    chkDivide.setEnabled(true);
+                    if (opd2 == 0) {
+                        // Handle division by zero by showing an error or setting result to a specific value
+                        result = Double.POSITIVE_INFINITY; // Example handling
+                    } else if (chkDivide.isChecked()) {
+                        result = opd1 / (double) opd2;
                     }
                 }
 
                 Intent rintent = new Intent();
-                Bundle rbundle = new Bundle();
-                rbundle.putDouble("RESULT", result);
-                rintent.putExtras(rbundle);
-                setResult(RESULT_OK, rintent);  // Set the result for the parent activity
-                finish();  // Close this activity
+                rintent.putExtra("RESULT", result);
+                setResult(RESULT_OK, rintent);
+                finish();
             }
         });
     }
