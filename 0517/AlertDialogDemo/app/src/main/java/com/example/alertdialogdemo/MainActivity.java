@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +13,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements DialogInterface.OnClickListener {
+public class MainActivity extends AppCompatActivity implements DialogInterface.OnClickListener, DialogInterface.OnMultiChoiceClickListener {
 
     private String[] items = {"Samsung","Apple","HTC","Asus"};
     private boolean[] itemsChecked = {false, false, false, false};
@@ -22,8 +23,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        Button btnAbout = (Button) findViewById(R.id.btnAbout);
+        Button btnAbout = findViewById(R.id.btnAbout);
         btnAbout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
             }
         });
 
-        Button btnExit = (Button) findViewById(R.id.btnExit);
+        Button btnExit = findViewById(R.id.btnExit);
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
             }
         });
 
-        Button btnColor = (Button) findViewById(R.id.btnColor);
+        Button btnColor = findViewById(R.id.btnColor);
         btnColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                         .setItems(new String[]{"红色", "黄色", "绿色"}, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Button btnColor = (Button) findViewById(R.id.btnColor);
                                 switch (which) {
                                     case 0:
                                         btnColor.setBackgroundColor(Color.RED);
@@ -93,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
             }
         });
 
-        Button btnSelect = (Button) findViewById(R.id.btnSelect);
+        Button btnSelect = findViewById(R.id.btnSelect);
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,35 +100,34 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                         .setTitle("請勾選選項?")
                         .setPositiveButton("確定", MainActivity.this)
                         .setNegativeButton("取消", MainActivity.this)
-                        .setMultiChoiceItems(items, itemsChecked, null)
+                        .setMultiChoiceItems(items, itemsChecked, MainActivity.this)
                         .show();
+            }
+        });
+
+        Button btnSubmit = findViewById(R.id.btnSubmit);
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StringBuilder selectedItems = new StringBuilder();
+                for (int i = 0; i < items.length; i++) {
+                    if (itemsChecked[i]) {
+                        if (selectedItems.length() > 0) {
+                            selectedItems.append(", ");
+                        }
+                        selectedItems.append(items[i]);
+                    }
+                }
+
+                Intent intent = new Intent(MainActivity.this, SelectedItemsActivity.class);
+                intent.putExtra("selectedItems", selectedItems.toString());
+                startActivity(intent);
             }
         });
     }
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-//        switch (which) {
-//            case DialogInterface.BUTTON_POSITIVE:
-//                finish();
-//                break;
-//            case DialogInterface.BUTTON_NEGATIVE:
-//                Toast.makeText(this, "取消退出", Toast.LENGTH_SHORT).show();
-//                break;
-//        }
-//        Button btnColor = (Button) findViewById(R.id.btnColor);
-//        switch (which) {
-//            case 0:
-//                btnColor.setBackgroundColor(Color.RED);
-//                break;
-//            case 1:
-//                btnColor.setBackgroundColor(Color.YELLOW);
-//                break;
-//            case 2:
-//                btnColor.setBackgroundColor(Color.GREEN);
-//                break;
-//        }
-
         String msg = "";
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
@@ -138,12 +136,18 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                         msg += items[index] + "\n";
                     }
                 }
-                TextView output = (TextView) findViewById(R.id.lblOutput);
+                TextView output = findViewById(R.id.lblOutput);
                 output.setText(msg);
                 break;
             case DialogInterface.BUTTON_NEGATIVE:
                 Toast.makeText(this, "您取消了選擇！", Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+        itemsChecked[which] = isChecked;
+        Toast.makeText(MainActivity.this, items[which] + (isChecked ? " 勾選" : " 沒有勾選"), Toast.LENGTH_SHORT).show();
     }
 }
